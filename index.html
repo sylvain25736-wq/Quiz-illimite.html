@@ -145,7 +145,7 @@ h1 {
 <main class="container">
   <h1>🎓 L'Académie du Fromager</h1>
   <p class="subtitle">Chez Sylvain — Testez vos connaissances à l'infini !</p>
-  <div class="badge" id="totalQuestionsCount">Banque de questions illimitée ♾️</div>
+  <div class="badge" id="totalQuestionsCount">Banque de questions d'experts ♾️</div>
 
   <div class="progress-bar">
     <div class="progress" id="progress"></div>
@@ -160,7 +160,7 @@ h1 {
     <div class="feedback" id="feedback" aria-live="polite"></div>
   </section>
 
-    <!-- Carte Résultat -->
+  <!-- Carte Résultat -->
   <section class="card" id="resultCard">
     <div class="score-badge" id="scoreEmoji">🏆</div>
     <h2>Votre Résultat</h2>
@@ -169,7 +169,6 @@ h1 {
 
     <button class="btn-action" id="restartBtn">🔄 Rejouer une nouvelle partie</button>
     
-    <!-- 🔗 Un seul bouton vert propre -->
     <a href="https://sylvain25736-wq.github.io/Le-jeu-du-fromage-/" class="btn-action btn-secondary" style="margin-top: 14px;">
       🎁 Tenter de gagner 5€ au Grand Jeu
     </a>
@@ -178,66 +177,31 @@ h1 {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // BASE DE DONNÉES MASSIVE DE QUESTIONS
-  const BASE_QUESTIONS = [
-    { text: "Quel fromage est entouré d’une sangle en écorce d’épicéa ?", options: { A: "Morbier", B: "Mont d’Or", C: "Saint-Nectaire" }, correct: "B" },
-    { text: "Quel fromage savoyard est la star de la tartiflette ?", options: { A: "Reblochon", B: "Beaufort", C: "Abondance" }, correct: "A" },
-    { text: "Quel fromage persillé est né dans les caves de Combalou ?", options: { A: "Roquefort", B: "Fourme d'Ambert", C: "Bleu des Causses" }, correct: "A" },
-    { text: "De quel lait est fait le Crottin de Chavignol ?", options: { A: "Vache", B: "Chèvre", C: "Brebis" }, correct: "B" },
-    { text: "Quel fromage du Nord a une forme carrée et une croûte lavée orangée ?", options: { A: "Maroilles", B: "Livarot", C: "Munster" }, correct: "A" },
-    { text: "Lequel de ces fromages possède une AOP en Corse ?", options: { A: "Salers", B: "Laguiole", C: "Brocciu" }, correct: "C" },
-    { text: "De quelle région est originaire le Comté ?", options: { A: "Normandie", B: "Franche-Comté", C: "Auvergne" }, correct: "B" },
-    { text: "Quel fromage est surnommé 'Le Prince des Montagnes' ?", options: { A: "Beaufort", B: "Cantal", C: "Emmental" }, correct: "A" },
-    { text: "Quel fromage d'Auvergne a une ligne noire de cendre au centre ?", options: { A: "Morbier", B: "Bleu d'Auvergne", C: "Saint-Nectaire" }, correct: "A" },
-    { text: "Combien de litres de lait faut-il pour une meule de Comté de 40 kg ?", options: { A: "100 L", B: "400 L", C: "1000 L" }, correct: "B" },
-    { text: "Quel fromage frais italien est fait avec du lait de bufflonne ?", options: { A: "Parmesan", B: "Mozzarella di Bufala", C: "Gorgonzola" }, correct: "B" },
-    { text: "Quel fromage normand est vendu dans une boîte en bois de peuplier ?", options: { A: "Camembert", B: "Munster", C: "Saint-Paulin" }, correct: "A" },
-    { text: "Quel fromage basque est traditionnellement dégusté avec de la confiture de cerise noire ?", options: { A: "Ossau-Iraty", B: "Roquefort", C: "Pélardon" }, correct: "A" },
-    { text: "Quel fromage alsacien au goût affiné est souvent assaisonné de cumin ?", options: { A: "Munster", B: "Epoisses", C: "Brie de Meaux" }, correct: "A" },
-    { text: "Quel fromage bourguignon est lavé au marc de Bourgogne ?", options: { A: "Époisses", B: "Reblochon", C: "Cantal" }, correct: "A" },
-    { text: "Quel fromage à pâte persillée est produit dans le Puy-de-Dôme ?", options: { A: "Fourme d'Ambert", B: "Roquefort", C: "Gorgonzola" }, correct: "A" },
-    { text: "Quel est le plus ancien des fromages de Savoie AOP ?", options: { A: "Tome des Bauges", B: "Reblochon", C: "Beaufort" }, correct: "A" },
-    { text: "Quel fromage suisse est l'ingrédient phare de la vraie fondue moitié-moitié ?", options: { A: "Gruyère AOP suisse", B: "Gouda", C: "Cheddar" }, correct: "A" },
-    { text: "Quel fromage à pâte dure italien râpé décore souvent les pâtes ?", options: { A: "Parmigiano Reggiano", B: "Ricotta", C: "Mascarpone" }, correct: "A" },
-    { text: "Quel fromage anglais se caractérise par sa couleur orange intense ou blanche ?", options: { A: "Cheddar", B: "Stilton", C: "Brie" }, correct: "A" },
-    { text: "Quel fromage à pâte molle a la forme d'un cœur en Normandie ?", options: { A: "Neufchâtel", B: "Pont-l'Évêque", C: "Chaource" }, correct: "A" },
-    { text: "Quel fromage hollandais est souvent entouré d'une cire rouge ?", options: { A: "Edam", B: "Comté", C: "Appenzeller" }, correct: "A" },
-    { text: "Quel fromage grec salé est conservé en saumure ?", options: { A: "Feta", B: "Halloumi", C: "Manouri" }, correct: "A" },
-    { text: "Quel fromage chypriote peut être grillé à la poêle sans fondre ?", options: { A: "Halloumi", B: "Feta", C: "Gouda" }, correct: "A" },
-    { text: "De quel animal provient le milk utilisé pour fabriquer le Rocamadour ?", options: { A: "Chèvre", B: "Vache", C: "Brebis" }, correct: "A" },
-    { text: "Quel fromage AOP de Dordogne et du Lot se présente sous forme de cabécou ?", options: { A: "Rocamadour", B: "Pélardon", C: "Banon" }, correct: "A" },
-    { text: "Quel fromage provençal est emballé dans une feuille de châtaignier ficelée ?", options: { A: "Banon", B: "Picodon", C: "Valençay" }, correct: "A" },
-    { text: "Quel fromage du Centre-Val de Loire a une forme de pyramide tronquée couverte de cendre ?", options: { A: "Valençay", B: "Sainte-Maure", C: "Selles-sur-Cher" }, correct: "A" },
-    { text: "Quel fromage de chèvre a une paille de seigle gravée au centre ?", options: { A: "Sainte-Maure de Touraine", B: "Crottin", C: "Chabichou" }, correct: "A" },
-    { text: "Quel fromage du Poitou a une forme de cône tronqué ?", options: { A: "Chabichou du Poitou", B: "Rocamadour", C: "Munster" }, correct: "A" }
+  // BASE DE QUESTIONS STRICTEMENT QUALITATIVES ET POINTUES
+  const QUESTION_BANK = [
+    { text: "Quel fromage est traditionnellement entouré d’une sangle en écorce d’épicéa ?", options: { A: "Le Morbier", B: "Le Mont d’Or", C: "Le Saint-Nectaire" }, correct: "B" },
+    { text: "Quel fromage savoyard, né dans la vallée de Thônes, est la star de la tartiflette ?", options: { A: "Le Reblochon", B: "Le Beaufort", C: "L’Abondance" }, correct: "A" },
+    { text: "Quel célèbre fromage persillé français est né dans les caves de Combalou ?", options: { A: "Le Roquefort", B: "La Fourme d'Ambert", C: "Le Bleu des Causses" }, correct: "A" },
+    { text: "De quel lait est traditionnellement fabriqué le véritable Crottin de Chavignol ?", options: { A: "De vache", B: "De chèvre", C: "De brebis" }, correct: "B" },
+    { text: "Quel fromage à pâte pressée non cuite, reconnaissable à sa bande de lin rouge, vient du Nord ?", options: { A: "Le Maroilles", B: "Le Livarot", C: "Le Munster" }, correct: "B" },
+    { text: "Lequel de ces fromages possède une appellation d'origine protégée (AOP) en Corse ?", options: { A: "Le Salers", B: "Le Laguiole", C: "Le Brocciu" }, correct: "C" },
+    { text: "De quelle région française est originaire le fameux Comté ?", options: { A: "La Normandie", B: "La Franche-Comté", C: "L'Auvergne" }, correct: "B" },
+    { text: "Quel fromage jurassien se caractérise par sa ligne caractéristique de cendre végétale en son milieu ?", options: { A: "Le Morbier", B: "Le Saint-Nectaire", C: "Le Bleu de Gex" }, correct: "A" },
+    { text: "Quel fromage pyrénéen au lait de brebis se déguste traditionnellement avec de la confiture de cerise noire ?", options: { A: "L'Ossau-Iraty", B: "Le Roquefort", C: "Le Pélardon" }, correct: "A" },
+    { text: "Quel fromage normand à pâte molle et croûte fleurie a la forme d'un cœur ?", options: { A: "Le Neufchâtel", B: "Le Camembert", C: "Le Livarot" }, correct: "A" },
+    { text: "Quel fromage auvergnat bénéficie d'une AOP et se distingue par son onctuosité et son goût de noisette ?", options: { A: "Le Saint-Nectaire", B: "Le Salers", C: "Le Cantal" }, correct: "A" },
+    { text: "Quel fromage de chèvre du Centre-Val de Loire est façonné en forme de pyramide tronquée et cendré ?", options: { A: "Le Valençay", B: "Le Selles-sur-Cher", C: "Le Pouligny-Saint-Pierre" }, correct: "A" },
+    { text: "Quel fromage à pâte pressée cuite est surnommé 'Le Prince des Alpages' ?", options: { A: "Le Beaufort", B: "L'Emmental de Savoie", C: "Le Gruyère" }, correct: "A" },
+    { text: "Quel fromage alsacien à croûte lavée est réputé pour son parfum corsé et sa couleur orangée ?", options: { A: "Le Munster", B: "L'Époisses", C: "Le Maroilles" }, correct: "A" },
+    { text: "Quel fromage bourguignon est frotté au marc de Bourgogne pendant son affinage ?", options: { A: "L'Époisses", B: "Le Langres", C: "Le Soumaintrain" }, correct: "A" },
+    { text: "Quel est le principal ingrédient utilisé pour le caillage du lait en fromagerie traditionnelle ?", options: { A: "La présure", B: "Le vinaigre blanc", C: "Le bicarbonate" }, correct: "A" },
+    { text: "Comment appelle-t-on la croûte naturelle obtenue sur certains fromages de chèvre grâce à un saupoudrage de charbon de bois ?", options: { A: "Une croûte cendrée", B: "Une croûte lavée", C: "Une croûte persillée" }, correct: "A" },
+    { text: "Quel fromage suisse entre traditionnellement dans la composition de la fondue moitié-moitié aux côtés du Gruyère AOP ?", options: { A: "Le Vacherin Fribourgeois", B: "L'Appenzeller", C: "L'Emmental suisse" }, correct: "A" },
+    { text: "Quel fromage de chèvre du Poitou est traditionnellement traversé par une paille de seigle gravée ?", options: { A: "Le Sainte-Maure de Touraine", B: "Le Chabichou du Poitou", C: "Le Valençay" }, correct: "A" },
+    { text: "Quel fromage provençal au lait de chèvre est enveloppé et ficelé dans une feuille de châtiagnier ?", options: { A: "Le Banon", B: "Le Pélardon", C: "Le Picodon" }, correct: "A" }
   ];
 
-  // Générateur étendu pour atteindre 200 questions variées
-  let QUESTION_BANK = [...BASE_QUESTIONS];
-  
-  const REGIONS = [
-    { r: "Normandie", f: "Livaro / Pont-l'Évêque", l: "Vache" },
-    { r: "Auvergne", f: "Saint-Nectaire / Cantal / Salers", l: "Vache" },
-    { r: "Savoie", f: "Abondance / Reblochon", l: "Vache" },
-    { r: "Pyrénées", f: "Ossau-Iraty", l: "Brebis" },
-    { r: "Jura", f: "Morbier / Comté", l: "Vache" },
-    { r: "Aveyron", f: "Roquefort", l: "Brebis" }
-  ];
-
-  for (let i = 1; i <= 170; i++) {
-    const reg = REGIONS[i % REGIONS.length];
-    QUESTION_BANK.push({
-      text: `[Question n°${i + 30}] Dans quelle catégorie ou tradition se classe la spécialité régionales des fromages de ${reg.r} ?`,
-      options: {
-        A: `Fromages au lait de ${reg.l} (${reg.f})`,
-        B: "Fromages fondus industriels",
-        C: "Fromages doux sans affinage"
-      },
-      correct: "A"
-    });
-  }
-
-  document.getElementById("totalQuestionsCount").textContent = `${QUESTION_BANK.length} Questions disponible(s) ♾️`;
+  document.getElementById("totalQuestionsCount").textContent = `${QUESTION_BANK.length} Questions d'experts ♾️`;
 
   let currentQuestions = [];
   let currentStep = 0;
