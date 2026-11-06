@@ -26,6 +26,23 @@
             font-style: italic;
             margin-bottom: 25px;
         }
+        .nav-top {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-concours {
+            background-color: #059669;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn-concours:hover {
+            background-color: #047857;
+        }
         .question-block {
             margin-bottom: 20px;
             padding: 15px;
@@ -49,7 +66,7 @@
             margin: 6px 0;
             cursor: pointer;
         }
-        button {
+        button.action-btn {
             background-color: #d97706;
             color: white;
             border: none;
@@ -60,7 +77,7 @@
             width: 100%;
             margin-top: 10px;
         }
-        button:hover {
+        button.action-btn:hover {
             background-color: #b45309;
         }
         .btn-reload {
@@ -68,21 +85,6 @@
         }
         .btn-reload:hover {
             background-color: #374151;
-        }
-        .btn-concours {
-            background-color: #059669;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            color: white;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .btn-concours:hover {
-            background-color: #047857;
         }
         #resultat {
             margin-top: 20px;
@@ -109,10 +111,6 @@
             color: #b91c1c;
             text-decoration: line-through;
         }
-        #actionsFinalles {
-            display: none;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -120,22 +118,29 @@
     <h1>🧀 Académie du Fromager 🧀</h1>
     <p class="subtitle">60 questions d'experts — 5 tirées au sort à chaque partie !</p>
     
-    <form id="quizForm"></form>
+    <!-- Bouton permanent d'accès au concours en haut vers ton vrai site -->
+    <div class="nav-top">
+        <a href="https://sylvain25736-wq.github.io/Le-jeu-du-fromage-/" class="btn-concours">🎁 Revenir au Grand Jeu du Fromager</a>
+    </div>
 
-    <button type="button" id="btnSubmit" onclick="corrigerQuiz()">Valider mes réponses</button>
+    <div id="quiz-container">
+        <form id="quizForm"></form>
+        <button type="button" id="btnSubmit" class="action-btn" onclick="corrigerQuiz()">Valider mes réponses</button>
+    </div>
 
     <div id="resultat"></div>
     <div id="correctionContainer"></div>
 
-    <!-- Bloc d'actions qui apparaît uniquement après validation -->
-    <div id="actionsFinalles">
-        <button type="button" class="btn-reload" onclick="genererQuiz()">🔄 Tirer 5 nouvelles questions</button>
-        <a href="https://sylvain25736-wq.github.io/Quiz-illimite.html/" class="btn-concours">🎁 Revenir au Concours / S'inscrire</a>
+    <div id="actionsFinalles" style="display:none; margin-top: 20px;">
+        <button type="button" class="action-btn btn-reload" onclick="genererQuiz()">🔄 Tirer 5 nouvelles questions</button>
+        <br><br>
+        <div style="text-align: center;">
+            <a href="https://sylvain25736-wq.github.io/Le-jeu-du-fromage-/" class="btn-concours">🎁 Revenir au Grand Jeu du Fromager</a>
+        </div>
     </div>
 
     <script>
         const banqueQuestions = [
-            // --- SUISSE & ALPES (10) ---
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse d'alpage est exclusivement fabriqué au feu de bois dans des chaudières en cuivre ?", options: ["A. L'Étivaz AOP", "B. Le Vacherin Fribourgeois", "C. Le Tilsiter"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel est le nom de la sangle en écorce d'épicéa qui entoure le Vacherin Mont-d'Or ?", options: ["A. La cerche", "B. La gance", "C. Le feuillard"], r: "C" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage à pâte molle suisse se déguise traditionnellement pané et frit à la poêle ?", options: ["A. La Tomme Vaudoise", "B. Le Mutschli", "C. Le Belper Knolle"], r: "A" },
@@ -147,19 +152,17 @@
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel nom porte la meule d'Alpage suisse fabriquée dans le canton de Berne et affinée jusqu'à 3 ans ?", options: ["A. Berner Alpkäse", "B. Glarner Alpkäse", "C. Urner Alpkäse"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse utilise le trèfle mélilot bleu séché pour obtenir sa couleur verte vive ?", options: ["A. Le Schabziger", "B. Le Tête de Moine", "C. Le Luzerner Rahmkäse"], r: "A" },
 
-            // --- CHÈVRES & BREBIS (10) ---
             { theme: "🐐 Chèvres & Brebis", q: "Quel chèvre AOP du Poitou a une forme de pyramide tronquée sans pointe en mémoire d'une défaite napoléonienne ?", options: ["A. Le Valençay", "B. Le Pouligny-Saint-Pierre", "C. Le Sainte-Maure"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quelle paille de seigle gravée du nom du producteur traverse le centre de ce fromage ?", options: ["A. Le Sainte-Maure de Touraine", "B. Le Selles-sur-Cher", "C. Le Chabichou"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage corsé de brebis ou de chèvre est affiné dans feuilles de châtaignier ficelées avec du raffia ?", options: ["A. Le Banon", "B. Le Pélardon", "C. Le Picodon"], r: "A" },
+            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage corsé de brebis ou de chèvre est affiné dans des feuilles de châtaignier ficelées avec du raffia ?", options: ["A. Le Banon", "B. Le Pélardon", "C. Le Picodon"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage frais corse est fabriqué à partir du sérum (petit-lait) de brebis ou de chèvre ?", options: ["A. Le Brocciu", "B. Le Niolo", "C. Le Bastilicacciu"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel est l'unique fromage de chèvre AOP produit dans la chaîne des Alpes ?", options: ["A. Le Chevrotin", "B. Le Rigotte de Condrieu", "C. Le Picodon"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage basque au lait cru de brebis se déguise traditionnellement avec de la confiture de cerise noire ?", options: ["A. L'Ossau-Iraty", "B. Le Roncal", "C. Le Idiazabal"], r: "A" },
+            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage basque au lait cru de brebis se déguste traditionnellement avec de la confiture de cerise noire ?", options: ["A. L'Ossau-Iraty", "B. Le Roncal", "C. Le Idiazabal"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage du Périgord se présente sous la forme d'un petit disque de chèvre très fin de 35 grammes ?", options: ["A. Le Cabécou du Périgord", "B. Le Rocamadour", "C. Le Mothais sur Feuille"], r: "B" },
             { theme: "🐐 Chèvres & Brebis", q: "Sur quelle feuille d'arbre repose le Mothais-sur-Feuille durant son affinage pour absorber l'humidité ?", options: ["A. Feuille de châtaignier", "B. Feuille de platane", "C. Feuille de vigne"], r: "B" },
             { theme: "🐐 Chèvres & Brebis", q: "De quel animal provient le lait servant à la fabrication du célèbre Manchego espagnol ?", options: ["A. Brebis Manchega", "B. Chèvre Murciène", "C. Vache Asturienne"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage grec AOP est conservé et affiné en saumure dans des tonneaux en bois ?", options: ["A. La Feta", "B. Le Halloumi", "C. Le Graviera"], r: "A" },
 
-            // --- ACCORDS & LIQUIDES (10) ---
             { theme: "🍺 Accords & Liquides", q: "Quel style de bière amère aux notes d'agrumes s'accorde le mieux avec un Maroilles bien affiné ?", options: ["A. Une IPA (India Pale Ale)", "B. Une Pilsner ultra légère", "C. Une Kriek à la cerise"], r: "A" },
             { theme: "🍺 Accords & Liquides", q: "Quelle bière noire aux notes de torréfaction et de café se marie à merveille avec un Roquefort ?", options: ["A. Un Stout / Porter", "B. Une Blanche au froment", "C. Une Saison belge"], r: "A" },
             { theme: "🍺 Accords & Liquides", q: "Quel alcool sert au frottage traditionnel de la croûte du fromage d'Époisses ?", options: ["A. Le Marc de Bourgogne", "B. Le Calvados", "C. L'Armagnac"], r: "A" },
@@ -171,7 +174,6 @@
             { theme: "🍺 Accords & Liquides", q: "Quel fromage hollandais à la cire rouge s'accorde très bien avec une bière ambrée de garde ?", options: ["A. Le Gouda vieux", "B. L'Edam", "C. Le Maasdam"], r: "A" },
             { theme: "🍺 Accords & Liquides", q: "Quelle bière acide belge de fermentation spontanée se marie magnifiquement avec un chèvre frais ?", options: ["A. La Geuze / Lambic", "B. La Stout impériale", "C. La Lager industrielle"], r: "A" },
 
-            // --- HISTOIRE & ANECDOTES (10) ---
             { theme: "📜 Histoire & Anecdotes", q: "Quel auteur romain de l'Antiquité vantait déjà les mérites du fromage de Roquefort dans son histoire naturelle ?", options: ["A. Pline l'Ancien", "B. Jules César", "C. Cicéron"], r: "A" },
             { theme: "📜 Histoire & Anecdotes", q: "Quel roi de France est tombé amoureux du fromage de Brie à la table de la reine Marie Leszczynska ?", options: ["A. Louis XV", "B. Henri IV", "C. Louis XIV"], r: "A" },
             { theme: "📜 Histoire & Anecdotes", q: "En quelle année le Roi des Fromages fut-il décerné au Brie de Meaux lors du Congrès de Vienne ?", options: ["A. 1815", "B. 1789", "C. 1900"], r: "A" },
@@ -183,7 +185,6 @@
             { theme: "📜 Histoire & Anecdotes", q: "Quel Fromage anglais a failli disparaître et était protégé dans la littérature par Sherlock Holmes ?", options: ["A. Le Stilton", "B. Le Cheddar", "C. Le Red Leicester"], r: "A" },
             { theme: "📜 Histoire & Anecdotes", q: "Quel président français a dit : 'Comment voulez-vous gouverner un pays qui a 246 variétés de fromage ?'", options: ["A. Charles de Gaulle", "B. Georges Pompidou", "C. François Mitterrand"], r: "A" },
 
-            // --- FROMAGES DU MONDE (10) ---
             { theme: "🌍 Fromages du Monde", q: "Quel fromage britannique bleu traditionnel au lait cru est souvent appelé l'équivalent du Stilton au lait cru ?", options: ["A. Le Stichelton", "B. Le Wensleydale", "C. Le Cheshire"], r: "A" },
             { theme: "🌍 Fromages du Monde", q: "Quel fromage chypriote à pâte semi-dure a la particularité de ne pas fondre à la cuisson et se grille au barbecue ?", options: ["A. Le Halloumi", "B. Le Feta", "C. Le Kefalotyri"], r: "A" },
             { theme: "🌍 Fromages du Monde", q: "Quel fromage de Norvège au goût caramélisé et sucré est fabriqué à partir de petit-lait brun condensé ?", options: ["A. Le Brunost (Geitost)", "B. Le Jarlsberg", "C. Le Gamalost"], r: "A" },
@@ -195,7 +196,6 @@
             { theme: "🌍 Fromages du Monde", q: "Quel fromage italien AOP en forme de poire est suspendu par une cordelette pendant son affinage ?", options: ["A. Le Caciocavallo Silano", "B. Le Pecorino Romano", "C. Le Grana Padano"], r: "A" },
             { theme: "🌍 Fromages du Monde", q: "De quel pays provient le fromage de brebis AOP Paški Sir, affiné sur l'île de Pag ?", options: ["A. La Croatie", "B. La Grèce", "C. La Slovénie"], r: "A" },
 
-            // --- CHIMIE & FABRICATION (10) ---
             { theme: "🔬 Chimie & Techniques", q: "Quel est le nom du champignon responsable de la croûte fleurie blanche du Camembert et du Brie ?", options: ["A. Penicillium camemberti", "B. Penicillium roqueforti", "C. Brevibacterium linens"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Quel est le nom de la bactérie rouge/orangée développée lors du lavage des croûtes (Munster, Époisses) ?", options: ["A. Brevibacterium linens (Ferment du rouge)", "B. Lactobacillus bulgaricus", "C. Penicillium glaucum"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on les petits cristaux blancs craquants que l'on trouve dans les Comtés très affinés ?", options: ["A. Cristaux de Tyrosine (Acide aminé)", "B. Cristaux de sel marin", "C. Cristaux de lactose"], r: "A" },
@@ -203,4 +203,82 @@
             { theme: "🔬 Chimie & Techniques", q: "Quel acarien du fromage est volontairement introduit sur la croûte de la Mimolette vieille pour la percer et la faire respirer ?", options: ["A. Le Ciron (Acarus siro)", "B. Le Puceron", "C. Le Tenebrion"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Comment s'appelle le liquide jaune clair qui se sépare du caillé lors du décaillage ?", options: ["A. Le petit-lait (ou lactosérum)", "B. Le buttermilk", "C. Le sérum albumine"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "À quelle étape du travail du fromager découpe-t-on le caillé avec un tranchoir ou un fil pour évacuer l'eau ?", options: ["A. Le décaillage", "B. Le moulage", "C. Le salage"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quel terme désigne la période durant laquelle le fromage repose en cave pour développer ses arômes ?", options: ["A. L'affinage", "
+            { theme: "🔬 Chimie & Techniques", q: "Quel terme désigne la période durant laquelle le fromage repose en cave pour développer ses arômes ?", options: ["A. L'affinage", "B. Le brassage", "C. La maturation préalable"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quelle est la différence fondamentale entre une pâte pressée cuite (Comté) et non cuite (Reblochon) ?", options: ["A. Le caillé est chauffé à plus de 50°C avant pressage", "B. Le fromage est cuit au four après affinage", "C. Le lait est bouilli"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on un fromage fabriqué à la ferme avec le lait d'un seul troupeau ?", options: ["A. Fromage Fermier", "B. Fromage Artisanal", "C. Fromage Industriel"], r: "A" }
+        ];
+
+        let questionsTirees = [];
+
+        function genererQuiz() {
+            let melange = [...banqueQuestions].sort(() => 0.5 - Math.random());
+            questionsTirees = melange.slice(0, 5);
+
+            let formHTML = "";
+            questionsTirees.forEach((item, index) => {
+                formHTML += `
+                    <div class="question-block">
+                        <span class="theme-badge">${item.theme}</span>
+                        <p><strong>${index + 1}. ${item.q}</strong></p>
+                        <label><input type="radio" name="q${index}" value="A"> ${item.options[0]}</label>
+                        <label><input type="radio" name="q${index}" value="B"> ${item.options[1]}</label>
+                        <label><input type="radio" name="q${index}" value="C"> ${item.options[2]}</label>
+                    </div>
+                `;
+            });
+
+            document.getElementById("quizForm").innerHTML = formHTML;
+            document.getElementById("resultat").innerHTML = "";
+            document.getElementById("correctionContainer").innerHTML = "";
+            document.getElementById("quiz-container").style.display = "block";
+            document.getElementById("actionsFinalles").style.display = "none";
+        }
+
+        function corrigerQuiz() {
+            let score = 0;
+            let total = questionsTirees.length;
+            let form = document.forms['quizForm'];
+            let correctionsHTML = "";
+
+            questionsTirees.forEach((item, index) => {
+                let reponseUser = form[`q${index}`].value;
+                let texteReponseCorrecte = item.options.find(opt => opt.startsWith(item.r));
+
+                if (reponseUser === item.r) {
+                    score++;
+                } else {
+                    let texteReponseUser = reponseUser ? item.options.find(opt => opt.startsWith(reponseUser)) : "Aucune réponse";
+                    correctionsHTML += `
+                        <div class="correction-item">
+                            <p><strong>Question ${index + 1} :</strong> ${item.q}</p>
+                            <span class="wrong-ans">❌ Votre réponse : ${texteReponseUser}</span><br>
+                            <span class="correct-ans">✔ Bonne réponse : ${texteReponseCorrecte}</span>
+                        </div>
+                        <hr style="border:0; border-top:1px solid #fecaca; margin:8px 0;">
+                    `;
+                }
+            });
+
+            let resultatDiv = document.getElementById("resultat");
+            let correctionDiv = document.getElementById("correctionContainer");
+
+            if (score === total) {
+                resultatDiv.style.color = "green";
+                resultatDiv.innerHTML = `Score parfait : ${score}/${total} ! 🏆 Vous êtes un maître fromager hors pair !`;
+                correctionDiv.innerHTML = "";
+            } else {
+                resultatDiv.style.color = "#d97706";
+                resultatDiv.innerHTML = `Vous avez obtenu ${score}/${total}. Voici les corrections :`;
+                correctionDiv.innerHTML = `<div class="correction-detail"><h3>📝 Corrections des erreurs :</h3>${correctionsHTML}</div>`;
+            }
+
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("actionsFinalles").style.display = "block";
+        }
+
+        window.onload = function() {
+            genererQuiz();
+        };
+    </script>
+</body>
+</html>
