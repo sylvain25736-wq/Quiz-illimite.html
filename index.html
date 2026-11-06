@@ -78,7 +78,7 @@
             font-size: 16px;
             border-radius: 5px;
             color: white;
-            margin-top: 15px;
+            margin-top: 10px;
             font-weight: bold;
         }
         .btn-concours:hover {
@@ -109,6 +109,10 @@
             color: #b91c1c;
             text-decoration: line-through;
         }
+        #actionsFinalles {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -119,13 +123,15 @@
     <form id="quizForm"></form>
 
     <button type="button" id="btnSubmit" onclick="corrigerQuiz()">Valider mes réponses</button>
-    <button type="button" id="btnReload" onclick="genererQuiz()" style="display:none;" class="btn-reload">🔄 Tirer 5 nouvelles questions</button>
-
-    <!-- Lien permanent ou rapide pour retourner au concours -->
-    <a href="https://sylvain25736-wq.github.io/Quiz-illimite.html/" class="btn-concours" target="_blank">🎁 Participer au Tirage / Revenir au Concours</a>
 
     <div id="resultat"></div>
     <div id="correctionContainer"></div>
+
+    <!-- Bloc d'actions qui apparaît uniquement après validation -->
+    <div id="actionsFinalles">
+        <button type="button" class="btn-reload" onclick="genererQuiz()">🔄 Tirer 5 nouvelles questions</button>
+        <a href="https://sylvain25736-wq.github.io/Quiz-illimite.html/" class="btn-concours">🎁 Revenir au Concours / S'inscrire</a>
+    </div>
 
     <script>
         const banqueQuestions = [
@@ -144,7 +150,7 @@
             // --- CHÈVRES & BREBIS (10) ---
             { theme: "🐐 Chèvres & Brebis", q: "Quel chèvre AOP du Poitou a une forme de pyramide tronquée sans pointe en mémoire d'une défaite napoléonienne ?", options: ["A. Le Valençay", "B. Le Pouligny-Saint-Pierre", "C. Le Sainte-Maure"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quelle paille de seigle gravée du nom du producteur traverse le centre de ce fromage ?", options: ["A. Le Sainte-Maure de Touraine", "B. Le Selles-sur-Cher", "C. Le Chabichou"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage corsé de brebis ou de chèvre est affiné dans des feuilles de châtaignier ficelées avec du raffia ?", options: ["A. Le Banon", "B. Le Pélardon", "C. Le Picodon"], r: "A" },
+            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage corsé de brebis ou de chèvre est affiné dans feuilles de châtaignier ficelées avec du raffia ?", options: ["A. Le Banon", "B. Le Pélardon", "C. Le Picodon"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage frais corse est fabriqué à partir du sérum (petit-lait) de brebis ou de chèvre ?", options: ["A. Le Brocciu", "B. Le Niolo", "C. Le Bastilicacciu"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel est l'unique fromage de chèvre AOP produit dans la chaîne des Alpes ?", options: ["A. Le Chevrotin", "B. Le Rigotte de Condrieu", "C. Le Picodon"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage basque au lait cru de brebis se déguise traditionnellement avec de la confiture de cerise noire ?", options: ["A. L'Ossau-Iraty", "B. Le Roncal", "C. Le Idiazabal"], r: "A" },
@@ -178,4 +184,23 @@
             { theme: "📜 Histoire & Anecdotes", q: "Quel président français a dit : 'Comment voulez-vous gouverner un pays qui a 246 variétés de fromage ?'", options: ["A. Charles de Gaulle", "B. Georges Pompidou", "C. François Mitterrand"], r: "A" },
 
             // --- FROMAGES DU MONDE (10) ---
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage britannique bleu traditionnel au lait cru est souvent appelé l'équivalent du Stilton au lait cru ?", options:
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage britannique bleu traditionnel au lait cru est souvent appelé l'équivalent du Stilton au lait cru ?", options: ["A. Le Stichelton", "B. Le Wensleydale", "C. Le Cheshire"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage chypriote à pâte semi-dure a la particularité de ne pas fondre à la cuisson et se grille au barbecue ?", options: ["A. Le Halloumi", "B. Le Feta", "C. Le Kefalotyri"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage de Norvège au goût caramélisé et sucré est fabriqué à partir de petit-lait brun condensé ?", options: ["A. Le Brunost (Geitost)", "B. Le Jarlsberg", "C. Le Gamalost"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage italien AOP à pâte persillée vient de Lombardie et possède une version 'dolce' et 'piccante' ?", options: ["A. Le Gorgonzola", "B. Le Taleggio", "C. Le Fontina"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Comment s'appelle le fil de pâte étirée utilisé pour fabriquer la Mozzarella di Bufala et le Caciocavallo ?", options: ["A. Pasta Filata (Pâte filée)", "B. Pasta Pressata", "C. Pasta Cotta"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage anglais à pâte pressée est traditionnellement affiné enrobé dans une toile d'enveloppe en coton (clothbound) ?", options: ["A. Le Cheddar fermier", "B. Le Red Leicester", "C. Le Sage Derby"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage hollandais est reconnaissable à ses trous formés par le dégagement de dioxyde de carbone durant l'affinage ?", options: ["A. Le Maasdam", "B. Le Gouda", "C. Le Leyden"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage mexicain à pâte filée se présente sous la forme d'une pelote de ficelle blanche ?", options: ["A. Le Queso Oaxaca", "B. Le Cotija", "C. Le Queso Fresco"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage italien AOP en forme de poire est suspendu par une cordelette pendant son affinage ?", options: ["A. Le Caciocavallo Silano", "B. Le Pecorino Romano", "C. Le Grana Padano"], r: "A" },
+            { theme: "🌍 Fromages du Monde", q: "De quel pays provient le fromage de brebis AOP Paški Sir, affiné sur l'île de Pag ?", options: ["A. La Croatie", "B. La Grèce", "C. La Slovénie"], r: "A" },
+
+            // --- CHIMIE & FABRICATION (10) ---
+            { theme: "🔬 Chimie & Techniques", q: "Quel est le nom du champignon responsable de la croûte fleurie blanche du Camembert et du Brie ?", options: ["A. Penicillium camemberti", "B. Penicillium roqueforti", "C. Brevibacterium linens"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quel est le nom de la bactérie rouge/orangée développée lors du lavage des croûtes (Munster, Époisses) ?", options: ["A. Brevibacterium linens (Ferment du rouge)", "B. Lactobacillus bulgaricus", "C. Penicillium glaucum"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on les petits cristaux blancs craquants que l'on trouve dans les Comtés très affinés ?", options: ["A. Cristaux de Tyrosine (Acide aminé)", "B. Cristaux de sel marin", "C. Cristaux de lactose"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quel enzyme extrait de la caillette des jeunes ruminants est indispensable pour faire cailler le lait ?", options: ["A. La Présure", "B. Le Lactosérum", "C. La Pepsine synthétique"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quel acarien du fromage est volontairement introduit sur la croûte de la Mimolette vieille pour la percer et la faire respirer ?", options: ["A. Le Ciron (Acarus siro)", "B. Le Puceron", "C. Le Tenebrion"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Comment s'appelle le liquide jaune clair qui se sépare du caillé lors du décaillage ?", options: ["A. Le petit-lait (ou lactosérum)", "B. Le buttermilk", "C. Le sérum albumine"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "À quelle étape du travail du fromager découpe-t-on le caillé avec un tranchoir ou un fil pour évacuer l'eau ?", options: ["A. Le décaillage", "B. Le moulage", "C. Le salage"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quel terme désigne la période durant laquelle le fromage repose en cave pour développer ses arômes ?", options: ["A. L'affinage", "
