@@ -65,10 +65,24 @@
         }
         .btn-reload {
             background-color: #4b5563;
-            margin-top: 10px;
         }
         .btn-reload:hover {
             background-color: #374151;
+        }
+        .btn-concours {
+            background-color: #059669;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            color: white;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .btn-concours:hover {
+            background-color: #047857;
         }
         #resultat {
             margin-top: 20px;
@@ -106,6 +120,9 @@
 
     <button type="button" id="btnSubmit" onclick="corrigerQuiz()">Valider mes réponses</button>
     <button type="button" id="btnReload" onclick="genererQuiz()" style="display:none;" class="btn-reload">🔄 Tirer 5 nouvelles questions</button>
+
+    <!-- Lien permanent ou rapide pour retourner au concours -->
+    <a href="https://sylvain25736-wq.github.io/Quiz-illimite.html/" class="btn-concours" target="_blank">🎁 Participer au Tirage / Revenir au Concours</a>
 
     <div id="resultat"></div>
     <div id="correctionContainer"></div>
@@ -161,101 +178,4 @@
             { theme: "📜 Histoire & Anecdotes", q: "Quel président français a dit : 'Comment voulez-vous gouverner un pays qui a 246 variétés de fromage ?'", options: ["A. Charles de Gaulle", "B. Georges Pompidou", "C. François Mitterrand"], r: "A" },
 
             // --- FROMAGES DU MONDE (10) ---
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage britannique bleu traditionnel au lait cru est souvent appelé l'équivalent du Stilton au lait cru ?", options: ["A. Le Stichelton", "B. Le Wensleydale", "C. Le Cheshire"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage chypriote à pâte semi-dure a la particularité de ne pas fondre à la cuisson et se grille au barbecue ?", options: ["A. Le Halloumi", "B. Le Feta", "C. Le Kefalotyri"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage de Norvège au goût caramélisé et sucré est fabriqué à partir de petit-lait brun condensé ?", options: ["A. Le Brunost (Geitost)", "B. Le Jarlsberg", "C. Le Gamalost"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage italien AOP à pâte persillée vient de Lombardie et possède une version 'dolce' et 'piccante' ?", options: ["A. Le Gorgonzola", "B. Le Taleggio", "C. Le Fontina"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Comment s'appelle le fil de pâte étirée utilisé pour fabriquer la Mozzarella di Bufala et le Caciocavallo ?", options: ["A. Pasta Filata (Pâte filée)", "B. Pasta Pressata", "C. Pasta Cotta"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage anglais à pâte pressée est traditionnellement affiné enrobé dans une toile d'enveloppe en coton (clothbound) ?", options: ["A. Le Cheddar fermier", "B. Le Red Leicester", "C. Le Sage Derby"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage hollandais est reconnaissable à ses trous formés par le dégagement de dioxyde de carbone durant l'affinage ?", options: ["A. Le Maasdam", "B. Le Gouda", "C. Le Leyden"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage mexicain à pâte filée se présente sous la forme d'une pelote de ficelle blanche ?", options: ["A. Le Queso Oaxaca", "B. Le Cotija", "C. Le Queso Fresco"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "Quel fromage italien AOP en forme de poire est suspendu par une cordelette pendant son affinage ?", options: ["A. Le Caciocavallo Silano", "B. Le Pecorino Romano", "C. Le Grana Padano"], r: "A" },
-            { theme: "🌍 Fromages du Monde", q: "De quel pays provient le fromage de brebis AOP Paški Sir, affiné sur l'île de Pag ?", options: ["A. La Croatie", "B. La Grèce", "C. La Slovénie"], r: "A" },
-
-            // --- CHIMIE & FABRICATION (10) ---
-            { theme: "🔬 Chimie & Techniques", q: "Quel est le nom du champignon responsable de la croûte fleurie blanche du Camembert et du Brie ?", options: ["A. Penicillium camemberti", "B. Penicillium roqueforti", "C. Brevibacterium linens"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quel est le nom de la bactérie rouge/orangée développée lors du lavage des croûtes (Munster, Époisses) ?", options: ["A. Brevibacterium linens (Ferment du rouge)", "B. Lactobacillus bulgaricus", "C. Penicillium glaucum"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on les petits cristaux blancs craquants que l'on trouve dans les Comtés très affinés ?", options: ["A. Cristaux de Tyrosine (Acide aminé)", "B. Cristaux de sel marin", "C. Cristaux de lactose"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quel enzyme extrait de la caillette des jeunes ruminants est indispensable pour faire cailler le lait ?", options: ["A. La Présure", "B. Le Lactosérum", "C. La Pepsine synthétique"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quel acarien du fromage est volontairement introduit sur la croûte de la Mimolette vieille pour la percer et la faire respirer ?", options: ["A. Le Ciron (Acarus siro)", "B. Le Puceron", "C. Le Tenebrion"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Comment s'appelle le liquide jaune clair qui se sépare du caillé lors du décaillage ?", options: ["A. Le petit-lait (ou lactosérum)", "B. Le buttermilk", "C. Le sérum albumine"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "À quelle étape du travail du fromager découpe-t-on le caillé avec un tranchoir ou un fil pour évacuer l'eau ?", options: ["A. Le décaillage", "B. Le moulage", "C. Le salage"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quel terme désigne la période durant laquelle le fromage repose en cave pour développer ses arômes ?", options: ["A. L'affinage", "B. Le brassage", "C. La maturation préalable"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quelle est la différence fondamentale entre une pâte pressée cuite (Comté) et non cuite (Reblochon) ?", options: ["A. Le caillé est chauffé à plus de 50°C avant pressage", "B. Le fromage est cuit au four après affinage", "C. Le lait est bouilli"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on un fromage fabriqué à la ferme avec le lait d'un seul troupeau ?", options: ["A. Fromage Fermier", "B. Fromage Artisanal", "C. Fromage Industriel"], r: "A" }
-        ];
-
-        let questionsTirees = [];
-
-        function genererQuiz() {
-            let melange = [...banqueQuestions].sort(() => 0.5 - Math.random());
-            questionsTirees = melange.slice(0, 5);
-
-            let formHTML = "";
-            questionsTirees.forEach((item, index) => {
-                formHTML += `
-                    <div class="question-block">
-                        <span class="theme-badge">${item.theme}</span>
-                        <p><strong>${index + 1}. ${item.q}</strong></p>
-                        <label><input type="radio" name="q${index}" value="A"> ${item.options[0]}</label>
-                        <label><input type="radio" name="q${index}" value="B"> ${item.options[1]}</label>
-                        <label><input type="radio" name="q${index}" value="C"> ${item.options[2]}</label>
-                    </div>
-                `;
-            });
-
-            document.getElementById("quizForm").innerHTML = formHTML;
-            document.getElementById("resultat").innerHTML = "";
-            document.getElementById("correctionContainer").innerHTML = "";
-            document.getElementById("btnSubmit").style.display = "block";
-            document.getElementById("btnReload").style.display = "none";
-        }
-
-        function corrigerQuiz() {
-            let score = 0;
-            let total = questionsTirees.length;
-            let form = document.forms['quizForm'];
-            let correctionsHTML = "";
-            let erreursFaites = false;
-
-            questionsTirees.forEach((item, index) => {
-                let reponseUser = form[`q${index}`].value;
-                let texteReponseCorrecte = item.options.find(opt => opt.startsWith(item.r));
-
-                if (reponseUser === item.r) {
-                    score++;
-                } else {
-                    erreursFaites = true;
-                    let texteReponseUser = reponseUser ? item.options.find(opt => opt.startsWith(reponseUser)) : "Aucune réponse";
-                    correctionsHTML += `
-                        <div class="correction-item">
-                            <p><strong>Question ${index + 1} :</strong> ${item.q}</p>
-                            <span class="wrong-ans">❌ Votre réponse : ${texteReponseUser}</span><br>
-                            <span class="correct-ans">✔ Bonne réponse : ${texteReponseCorrecte}</span>
-                        </div>
-                        <hr style="border:0; border-top:1px solid #fecaca; margin:8px 0;">
-                    `;
-                }
-            });
-
-            let resultatDiv = document.getElementById("resultat");
-            let correctionDiv = document.getElementById("correctionContainer");
-
-            if (score === total) {
-                resultatDiv.style.color = "green";
-                resultatDiv.innerHTML = `Score parfait : ${score}/${total} ! 🏆 Vous êtes un maître fromager hors pair !`;
-                correctionDiv.innerHTML = "";
-            } else {
-                resultatDiv.style.color = "#d97706";
-                resultatDiv.innerHTML = `Vous avez obtenu ${score}/${total}. Voici les corrections :`;
-                correctionDiv.innerHTML = `<div class="correction-detail"><h3>📝 Corrections des erreurs :</h3>${correctionsHTML}</div>`;
-            }
-
-            document.getElementById("btnReload").style.display = "block";
-        }
-
-        // Lancement automatique au chargement
-        window.onload = genererQuiz;
-    </script>
-</body>
-</html>
+            { theme: "🌍 Fromages du Monde", q: "Quel fromage britannique bleu traditionnel au lait cru est souvent appelé l'équivalent du Stilton au lait cru ?", options:
