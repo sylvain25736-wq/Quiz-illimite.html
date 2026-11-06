@@ -76,6 +76,25 @@
             text-align: center;
             font-size: 18px;
         }
+        .correction-detail {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fef2f2;
+            border-left: 5px solid #ef4444;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .correction-item {
+            margin-bottom: 8px;
+        }
+        .correct-ans {
+            color: #15803d;
+            font-weight: bold;
+        }
+        .wrong-ans {
+            color: #b91c1c;
+            text-decoration: line-through;
+        }
     </style>
 </head>
 <body>
@@ -89,20 +108,21 @@
     <button type="button" id="btnReload" onclick="genererQuiz()" style="display:none;" class="btn-reload">🔄 Tirer 5 nouvelles questions</button>
 
     <div id="resultat"></div>
+    <div id="correctionContainer"></div>
 
     <script>
         const banqueQuestions = [
             // --- SUISSE & ALPES (10) ---
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse d'alpage est exclusivement fabriqué au feu de bois dans des chaudières en cuivre ?", options: ["A. L'Étivaz AOP", "B. Le Vacherin Fribourgeois", "C. Le Tilsiter"], r: "A" },
-            { theme: "🇨🇭 Suisse & Alpes", q: "Quel est le nom de la sangle en écorce d'épicéa qui entoure le Vacherin Mont-d'Or ?", options: ["A. La cerche", "B. La gance", "C. Le feuillard"], r: "A" },
-            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage à pâte molle suisse se déguste traditionnellement pané et frit à la poêle ?", options: ["A. La Tomme Vaudoise", "B. Le Mutschli", "C. Le Belper Knolle"], r: "A" },
-            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse est frotte avec un mélange d'herbes, d'épices et de vin blanc appelé la 'sulze' ?", options: ["A. L'Appenzeller", "B. Le Sbrinz", "C. Le Büscion"], r: "A" },
+            { theme: "🇨🇭 Suisse & Alpes", q: "Quel est le nom de la sangle en écorce d'épicéa qui entoure le Vacherin Mont-d'Or ?", options: ["A. La cerche", "B. La gance", "C. Le feuillard"], r: "C" },
+            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage à pâte molle suisse se déguise traditionnellement pané et frit à la poêle ?", options: ["A. La Tomme Vaudoise", "B. Le Mutschli", "C. Le Belper Knolle"], r: "A" },
+            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse est frotté avec un mélange d'herbes, d'épices et de vin blanc appelé la 'sulze' ?", options: ["A. L'Appenzeller", "B. Le Sbrinz", "C. Le Büscion"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quelle petite bille de fromage suisse du canton de Berne est enrobée de poivre noir et râpée en copeaux ?", options: ["A. Le Belper Knolle", "B. Le Schabziger", "C. Le Formaggini"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage savoyard partage son nom avec le reblochonnage, l'acte de traire une seconde fois en cachette ?", options: ["A. Le Reblochon", "B. L'Abondance", "C. Le Beaufort"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "De quel canton suisse le fromage Raclette du Valais AOP tire-t-il sa recette originale ?", options: ["A. Le Valais", "B. Fribourg", "C. Neuchâtel"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quelle est la durée d'affinage minimale requise pour un Sbrinz AOP avant commercialisation ?", options: ["A. 18 mois", "B. 6 mois", "C. 36 mois"], r: "A" },
             { theme: "🇨🇭 Suisse & Alpes", q: "Quel nom porte la meule d'Alpage suisse fabriquée dans le canton de Berne et affinée jusqu'à 3 ans ?", options: ["A. Berner Alpkäse", "B. Glarner Alpkäse", "C. Urner Alpkäse"], r: "A" },
-            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse utilise le trèfle mélilot bleu séché pour obtenir sa couleur verte verte vif ?", options: ["A. Le Schabziger", "B. Le Tête de Moine", "C. Le Luzerner Rahmkäse"], r: "A" },
+            { theme: "🇨🇭 Suisse & Alpes", q: "Quel fromage suisse utilise le trèfle mélilot bleu séché pour obtenir sa couleur verte vive ?", options: ["A. Le Schabziger", "B. Le Tête de Moine", "C. Le Luzerner Rahmkäse"], r: "A" },
 
             // --- CHÈVRES & BREBIS (10) ---
             { theme: "🐐 Chèvres & Brebis", q: "Quel chèvre AOP du Poitou a une forme de pyramide tronquée sans pointe en mémoire d'une défaite napoléonienne ?", options: ["A. Le Valençay", "B. Le Pouligny-Saint-Pierre", "C. Le Sainte-Maure"], r: "A" },
@@ -110,9 +130,9 @@
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage corsé de brebis ou de chèvre est affiné dans des feuilles de châtaignier ficelées avec du raffia ?", options: ["A. Le Banon", "B. Le Pélardon", "C. Le Picodon"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage frais corse est fabriqué à partir du sérum (petit-lait) de brebis ou de chèvre ?", options: ["A. Le Brocciu", "B. Le Niolo", "C. Le Bastilicacciu"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel est l'unique fromage de chèvre AOP produit dans la chaîne des Alpes ?", options: ["A. Le Chevrotin", "B. Le Rigotte de Condrieu", "C. Le Picodon"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage basque au lait cru de brebis se déguste traditionnellement avec de la confiture de cerise noire ?", options: ["A. L'Ossau-Iraty", "B. Le Roncal", "C. Le Idiazabal"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage du Périgord se présente sous la forme d'un petit disque de chèvre très fin de 35 grammes ?", options: ["A. Le Cabécou du Périgord", "B. Le Rocamadour", "C. Le Mothais sur Feuille"], r: "A" },
-            { theme: "🐐 Chèvres & Brebis", q: "Sur quelle feuille d'arbre repose le Mothais-sur-Feuille durant son affinage pour absorber l'humidité ?", options: ["A. Feuille de châtaignier", "B. Feuille de platane", "C. Feuille de vigne"], r: "A" },
+            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage basque au lait cru de brebis se déguise traditionnellement avec de la confiture de cerise noire ?", options: ["A. L'Ossau-Iraty", "B. Le Roncal", "C. Le Idiazabal"], r: "A" },
+            { theme: "🐐 Chèvres & Brebis", q: "Quel fromage du Périgord se présente sous la forme d'un petit disque de chèvre très fin de 35 grammes ?", options: ["A. Le Cabécou du Périgord", "B. Le Rocamadour", "C. Le Mothais sur Feuille"], r: "B" },
+            { theme: "🐐 Chèvres & Brebis", q: "Sur quelle feuille d'arbre repose le Mothais-sur-Feuille durant son affinage pour absorber l'humidité ?", options: ["A. Feuille de châtaignier", "B. Feuille de platane", "C. Feuille de vigne"], r: "B" },
             { theme: "🐐 Chèvres & Brebis", q: "De quel animal provient le lait servant à la fabrication du célèbre Manchego espagnol ?", options: ["A. Brebis Manchega", "B. Chèvre Murciène", "C. Vache Asturienne"], r: "A" },
             { theme: "🐐 Chèvres & Brebis", q: "Quel fromage grec AOP est conservé et affiné en saumure dans des tonneaux en bois ?", options: ["A. La Feta", "B. Le Halloumi", "C. Le Graviera"], r: "A" },
 
@@ -157,7 +177,7 @@
             { theme: "🔬 Chimie & Techniques", q: "Quel est le nom de la bactérie rouge/orangée développée lors du lavage des croûtes (Munster, Époisses) ?", options: ["A. Brevibacterium linens (Ferment du rouge)", "B. Lactobacillus bulgaricus", "C. Penicillium glaucum"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Comment appelle-t-on les petits cristaux blancs craquants que l'on trouve dans les Comtés très affinés ?", options: ["A. Cristaux de Tyrosine (Acide aminé)", "B. Cristaux de sel marin", "C. Cristaux de lactose"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Quel enzyme extrait de la caillette des jeunes ruminants est indispensable pour faire cailler le lait ?", options: ["A. La Présure", "B. Le Lactosérum", "C. La Pepsine synthétique"], r: "A" },
-            { theme: "🔬 Chimie & Techniques", q: "Quelle acarien du fromage est volontairement introduit sur la croûte de la Mimolette vieille pour la percer et la faire respirer ?", options: ["A. Le Ciron (Acarus siro)", "B. Le Puceron", "C. Le Tenebrion"], r: "A" },
+            { theme: "🔬 Chimie & Techniques", q: "Quel acarien du fromage est volontairement introduit sur la croûte de la Mimolette vieille pour la percer et la faire respirer ?", options: ["A. Le Ciron (Acarus siro)", "B. Le Puceron", "C. Le Tenebrion"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Comment s'appelle le liquide jaune clair qui se sépare du caillé lors du décaillage ?", options: ["A. Le petit-lait (ou lactosérum)", "B. Le buttermilk", "C. Le sérum albumine"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "À quelle étape du travail du fromager découpe-t-on le caillé avec un tranchoir ou un fil pour évacuer l'eau ?", options: ["A. Le décaillage", "B. Le moulage", "C. Le salage"], r: "A" },
             { theme: "🔬 Chimie & Techniques", q: "Quel terme désigne la période durant laquelle le fromage repose en cave pour développer ses arômes ?", options: ["A. L'affinage", "B. Le brassage", "C. La maturation préalable"], r: "A" },
@@ -186,6 +206,7 @@
 
             document.getElementById("quizForm").innerHTML = formHTML;
             document.getElementById("resultat").innerHTML = "";
+            document.getElementById("correctionContainer").innerHTML = "";
             document.getElementById("btnSubmit").style.display = "block";
             document.getElementById("btnReload").style.display = "none";
         }
@@ -194,21 +215,40 @@
             let score = 0;
             let total = questionsTirees.length;
             let form = document.forms['quizForm'];
+            let correctionsHTML = "";
+            let erreursFaites = false;
 
             questionsTirees.forEach((item, index) => {
                 let reponseUser = form[`q${index}`].value;
+                let texteReponseCorrecte = item.options.find(opt => opt.startsWith(item.r));
+
                 if (reponseUser === item.r) {
                     score++;
+                } else {
+                    erreursFaites = true;
+                    let texteReponseUser = reponseUser ? item.options.find(opt => opt.startsWith(reponseUser)) : "Aucune réponse";
+                    correctionsHTML += `
+                        <div class="correction-item">
+                            <p><strong>Question ${index + 1} :</strong> ${item.q}</p>
+                            <span class="wrong-ans">❌ Votre réponse : ${texteReponseUser}</span><br>
+                            <span class="correct-ans">✔ Bonne réponse : ${texteReponseCorrecte}</span>
+                        </div>
+                        <hr style="border:0; border-top:1px solid #fecaca; margin:8px 0;">
+                    `;
                 }
             });
 
             let resultatDiv = document.getElementById("resultat");
+            let correctionDiv = document.getElementById("correctionContainer");
+
             if (score === total) {
                 resultatDiv.style.color = "green";
                 resultatDiv.innerHTML = `Score parfait : ${score}/${total} ! 🏆 Vous êtes un maître fromager hors pair !`;
+                correctionDiv.innerHTML = "";
             } else {
                 resultatDiv.style.color = "#d97706";
-                resultatDiv.innerHTML = `Vous avez obtenu ${score}/${total}. Retentez votre chance ! 🧀`;
+                resultatDiv.innerHTML = `Vous avez obtenu ${score}/${total}. Voici les corrections :`;
+                correctionDiv.innerHTML = `<div class="correction-detail"><h3>📝 Corrections des erreurs :</h3>${correctionsHTML}</div>`;
             }
 
             document.getElementById("btnReload").style.display = "block";
